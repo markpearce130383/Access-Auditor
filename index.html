@@ -466,25 +466,31 @@
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-100">
-                                            {results.list.map((row, i) => (
-                                                <tr key={i} className="hover:bg-gray-50">
-                                                    <td className="p-4 font-medium text-gray-900">{row.id}</td>
-                                                    <td className="p-4 text-gray-700">{row.name}</td>
-                                                    <td className="p-4 text-gray-600">{row.lastSeen}</td>
-                                                    <td className="p-4 text-gray-600">{row.daysSince}</td>
-                                                    <td className="p-4">
-                                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold
-                                                            ${row.status.includes('Active') ? 'bg-green-100 text-green-700' : ''}
-                                                            ${row.status.includes('3-6') ? 'bg-yellow-100 text-yellow-700' : ''}
-                                                            ${row.status.includes('6-9') ? 'bg-orange-100 text-orange-700' : ''}
-                                                            ${row.status.includes('9-12') ? 'bg-red-100 text-red-700' : ''}
-                                                            ${row.status.includes('> 1') || row.status.includes('Never') ? 'bg-gray-200 text-gray-700' : ''}
-                                                        `}>
-                                                            {row.status}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                            {results.list.map((row, i) => {
+                                                const isHighPriority = row.id && row.id.toString().startsWith('CO_');
+                                                return (
+                                                    <tr key={i} className={`hover:bg-gray-50 ${isHighPriority ? 'bg-indigo-50 border-l-4 border-indigo-500' : 'border-l-4 border-transparent'}`}>
+                                                        <td className={`p-4 font-medium ${isHighPriority ? 'text-indigo-700 font-bold' : 'text-gray-900'}`}>
+                                                            {row.id}
+                                                            {isHighPriority && <span className="ml-2 text-[10px] uppercase tracking-wider bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded">EXT</span>}
+                                                        </td>
+                                                        <td className="p-4 text-gray-700">{row.name}</td>
+                                                        <td className="p-4 text-gray-600">{row.lastSeen}</td>
+                                                        <td className="p-4 text-gray-600">{row.daysSince}</td>
+                                                        <td className="p-4">
+                                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                                                                ${row.status.includes('Active') ? 'bg-green-100 text-green-700' : ''}
+                                                                ${row.status.includes('3-6') ? 'bg-yellow-100 text-yellow-700' : ''}
+                                                                ${row.status.includes('6-9') ? 'bg-orange-100 text-orange-700' : ''}
+                                                                ${row.status.includes('9-12') ? 'bg-red-100 text-red-700' : ''}
+                                                                ${row.status.includes('> 1') || row.status.includes('Never') ? 'bg-gray-200 text-gray-700' : ''}
+                                                            `}>
+                                                                {row.status}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
                                         </tbody>
                                     </table>
                                 </div>
